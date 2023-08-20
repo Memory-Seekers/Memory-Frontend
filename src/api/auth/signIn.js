@@ -7,6 +7,7 @@ export const postSignIn = async (email, password) => {
     const response = await apiClient.post(endPoint, {
       email: email,
       password: password,
+      bypassInterceptor: true,
     });
 
     return response.data;

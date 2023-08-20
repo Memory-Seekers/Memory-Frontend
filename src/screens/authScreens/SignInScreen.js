@@ -1,17 +1,20 @@
-import { StyleSheet, Text, View, Image } from 'react-native';
+import { StyleSheet, Text, View, Image, Pressable } from 'react-native';
 import validator from 'validator';
 import Constants from 'expo-constants';
 import InputBox from '../../components/InputBox';
 import FullButton from '../../components/buttons/FullButton';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { screenHorizontal } from '../../styles/globalStyles';
 import { postSignIn } from '../../api/auth/signIn';
 import { Body, Family, Label } from '../../styles/fonts';
 import { DANGER, GRAY } from '../../styles/colors';
-import { getAccessToken, storeAccessToken } from '../../api/token';
+import { storeAccessToken } from '../../api/token';
+import CheckBox from '../../components/buttons/CheckBox';
+import AsyncStorage from '@react-native-community/async-storage';
 
 const SignInScreen = ({ navigation }) => {
   const [loginErrorMesseage, setLoginErrorMesseage] = useState('');
+  const [isChecked, setIsChecked] = useState(false);
 
   const initialFormData = {
     email: '',
@@ -38,7 +41,7 @@ const SignInScreen = ({ navigation }) => {
     }));
   };
 
-  const handleSignIn = () => {
+  const handleSignIn = async () => {
     const errors = {};
 
     setLoginErrorMesseage('');
@@ -75,6 +78,14 @@ const SignInScreen = ({ navigation }) => {
             다시 입력해주세요.`
           );
         });
+
+      if (isChecked) {
+        try {
+          await AsyncStorage.setItem('@AutomaticLogin', 'true');
+        } catch (error) {
+          console.error('Failed to save the automaticLogin to storage', error);
+        }
+      }
     }
   };
 
@@ -111,9 +122,17 @@ const SignInScreen = ({ navigation }) => {
               marginTop={16}
               secureTextEntry
             />
+
+            <Pressable
+              style={styles.AutomaticLoginContainer}
+              onPress={() => setIsChecked(!isChecked)}
+            >
+              <CheckBox isChecked={isChecked} />
+              <Text style={styles.checkBoxTitle}>{'로그인 상태 유지'}</Text>
+            </Pressable>
           </View>
 
-          <View style={{ width: '100%' }}>
+          <View style={{ width: '100%', marginTop: 24 }}>
             <FullButton title={'로그인'} onPress={handleSignIn} />
           </View>
 
@@ -175,6 +194,17 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     bottom: 16,
+  },
+  AutomaticLoginContainer: {
+    width: '100%',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  checkBoxTitle: {
+    ...Family.KR_Regular,
+    ...Label.Large,
+    marginLeft: 8,
+    color: GRAY['600'],
   },
 });
 

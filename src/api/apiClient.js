@@ -24,6 +24,10 @@ const isTokenExpired = (token) => {
 
 apiClient.interceptors.request.use(
   async (config) => {
+    if (config.data.bypassInterceptor) {
+      return config;
+    }
+
     const token = await getAccessToken();
     if (token) {
       if (isTokenExpired(token)) {
