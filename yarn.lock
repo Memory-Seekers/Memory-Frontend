@@ -7805,6 +7805,11 @@ react-native-keychain@^8.1.2:
   resolved "https://registry.yarnpkg.com/react-native-keychain/-/react-native-keychain-8.1.2.tgz#34291ae472878e5124d081211af5ede7d810e64f"
   integrity sha512-bhHEui+yMp3Us41NMoRGtnWEJiBE0g8tw5VFpq4mpmXAx6XJYahuM6K3WN5CsUeUl83hYysSL9oFZNKSTPSvYw==
 
+react-native-nmap@^0.0.66:
+  version "0.0.66"
+  resolved "https://registry.yarnpkg.com/react-native-nmap/-/react-native-nmap-0.0.66.tgz#caea39b1af54d4e46c4313c21130986d3adea3fc"
+  integrity sha512-+XMJOqn4zZ6PWO0UH478yj0b9PjYGHQcLUd0W5gJQ3DqGeJEb3vvWVDMbkzcuHsh59hkhGPsE9Q6pZkXxKsYtQ==
+
 react-native-safe-area-context@^4.7.1:
   version "4.7.1"
   resolved "https://registry.yarnpkg.com/react-native-safe-area-context/-/react-native-safe-area-context-4.7.1.tgz#b7be2d68dee909717cfa439bb5c7966042d231e8"
