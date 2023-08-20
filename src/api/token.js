@@ -1,6 +1,12 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import * as Keychain from 'react-native-keychain';
-import apiClient from './apiClient';
+
+import axios from 'axios';
+import { API_URL } from '@env';
+
+const apiClient = axios.create({
+  baseURL: API_URL,
+});
 
 export const postReissueAccessToken = async (refreshToken) => {
   const endPoint = '/member/reissueAccessToken';
