@@ -19,8 +19,8 @@ const InputBox = forwardRef(
     const [isFocused, setIsFocused] = useState(false);
 
     return (
-      <View style={styles.container}>
-        {title ?? <Text style={styles.title}>{title}</Text>}
+      <View style={[styles.container, { marginTop: marginTop }]}>
+        {title && <Text style={styles.title}>{title}</Text>}
 
         <View>
           <TextInput
@@ -28,7 +28,6 @@ const InputBox = forwardRef(
               styles.inputContainer,
               isFocused && styles.focusedInput,
               errorMessage && styles.errorInput,
-              { marginTop: marginTop },
             ]}
             {...props}
             ref={ref}
@@ -61,6 +60,7 @@ const styles = StyleSheet.create({
   title: {
     ...Family.KR_Medium,
     ...Label.Large,
+    color: GRAY['700'],
   },
   inputContainer: {
     height: 40,

@@ -1,10 +1,14 @@
 import { Pressable, StyleSheet, Text } from 'react-native';
-import { PRIMARY, WHITE } from '../../styles/colors';
+import { GRAY, PRIMARY, WHITE } from '../../styles/colors';
 import { Body, Family } from '../../styles/fonts';
 
 const FullButton = ({ title, onPress, disabled }) => {
   return (
-    <Pressable style={styles.container} onPress={onPress} disabled={disabled}>
+    <Pressable
+      style={[styles.container, disabled && { backgroundColor: GRAY.DEFAULT }]}
+      onPress={onPress}
+      disabled={disabled}
+    >
       <Text style={styles.title}>{title}</Text>
     </Pressable>
   );
