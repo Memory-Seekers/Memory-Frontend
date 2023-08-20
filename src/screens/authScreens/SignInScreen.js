@@ -8,6 +8,7 @@ import { screenHorizontal } from '../../styles/globalStyles';
 import { postSignIn } from '../../api/auth/signIn';
 import { Body, Family, Label } from '../../styles/fonts';
 import { DANGER, GRAY } from '../../styles/colors';
+import { getAccessToken, storeAccessToken } from '../../api/token';
 
 const SignInScreen = ({ navigation }) => {
   const [loginErrorMesseage, setLoginErrorMesseage] = useState('');
@@ -23,6 +24,12 @@ const SignInScreen = ({ navigation }) => {
     email: null,
     password: null,
   });
+
+  const focusNextField = (field) => {
+    if (inputFieldRef.current[field]) {
+      inputFieldRef.current[field].focus();
+    }
+  };
 
   const handleInputChange = (name, value) => {
     setInputFormData((prevData) => ({
@@ -57,7 +64,9 @@ const SignInScreen = ({ navigation }) => {
 
     if (Object.keys(errors).length === 0) {
       postSignIn(inputFormData.email, inputFormData.password)
-        .then((response) => {})
+        .then(async (response) => {
+          await storeAccessToken(response.accessToken);
+        })
         .catch((error) => {
           setInputFormData(initialFormData);
 
@@ -66,12 +75,6 @@ const SignInScreen = ({ navigation }) => {
             다시 입력해주세요.`
           );
         });
-    }
-  };
-
-  const focusNextField = (field) => {
-    if (inputFieldRef.current[field]) {
-      inputFieldRef.current[field].focus();
     }
   };
 
@@ -122,7 +125,7 @@ const SignInScreen = ({ navigation }) => {
           </Text>
         </View>
 
-        <View style={styles.findPasswordContainer}>
+        <View style={styles.bottomContainer}>
           <Text
             style={[styles.smallText, { ...Family.KR_Regular, marginRight: 8 }]}
           >
@@ -168,9 +171,9 @@ const styles = StyleSheet.create({
     color: GRAY['600'],
     marginTop: 16,
   },
-  findPasswordContainer: {
-    justifyContent: 'center',
+  bottomContainer: {
     flexDirection: 'row',
+    justifyContent: 'center',
     bottom: 16,
   },
 });

@@ -1,4 +1,4 @@
-import { apiClient } from '../apiClient';
+import apiClient from '../apiClient';
 
 export const postSignIn = async (email, password) => {
   const endPoint = '/member/login';
