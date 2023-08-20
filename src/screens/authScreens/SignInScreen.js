@@ -8,13 +8,15 @@ import { screenHorizontal } from '../../styles/globalStyles';
 import { postSignIn } from '../../api/auth/signIn';
 import { Body, Family, Label } from '../../styles/fonts';
 import { DANGER, GRAY } from '../../styles/colors';
-import { storeAccessToken } from '../../api/token';
+import { storeAccessToken, storeRefreshToken } from '../../api/token';
 import CheckBox from '../../components/buttons/CheckBox';
 import AsyncStorage from '@react-native-community/async-storage';
+import { useAuth } from '../../contexts/AuthContext';
 
 const SignInScreen = ({ navigation }) => {
   const [loginErrorMesseage, setLoginErrorMesseage] = useState('');
   const [isChecked, setIsChecked] = useState(false);
+  const { setIsLoggedIn } = useAuth();
 
   const initialFormData = {
     email: '',
@@ -68,7 +70,9 @@ const SignInScreen = ({ navigation }) => {
     if (Object.keys(errors).length === 0) {
       postSignIn(inputFormData.email, inputFormData.password)
         .then(async (response) => {
+          setIsLoggedIn(true);
           await storeAccessToken(response.accessToken);
+          await storeRefreshToken(response.refreshToken);
         })
         .catch((error) => {
           setInputFormData(initialFormData);
@@ -79,12 +83,10 @@ const SignInScreen = ({ navigation }) => {
           );
         });
 
-      if (isChecked) {
-        try {
-          await AsyncStorage.setItem('@AutomaticLogin', 'true');
-        } catch (error) {
-          console.error('Failed to save the automaticLogin to storage', error);
-        }
+      try {
+        await AsyncStorage.setItem('@AutomaticLogin', isChecked.toString());
+      } catch (error) {
+        console.error('Failed to save the automaticLogin to storage', error);
       }
     }
   };

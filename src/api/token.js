@@ -12,12 +12,16 @@ export const postReissueAccessToken = async (refreshToken) => {
   const endPoint = '/member/reissueAccessToken';
 
   try {
-    const response = await apiClient.post(endPoint, {
-      headers: {
-        'REFRESH-TOKEN': refreshToken,
-      },
-    });
-
+    const response = await apiClient.post(
+      endPoint,
+      {},
+      {
+        headers: {
+          'REFRESH-TOKEN': refreshToken,
+        },
+        bypassInterceptor: true,
+      }
+    );
     return response.data;
   } catch (error) {
     throw error;

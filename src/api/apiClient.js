@@ -16,7 +16,7 @@ const isTokenExpired = (token) => {
   try {
     const decoded = jwtDecode(token);
 
-    return Date.now() / 100 > decoded.exp;
+    return Date.now() / 1000 > decoded.exp;
   } catch (error) {
     return true;
   }
@@ -24,7 +24,7 @@ const isTokenExpired = (token) => {
 
 apiClient.interceptors.request.use(
   async (config) => {
-    if (config.data.bypassInterceptor) {
+    if (config.bypassInterceptor) {
       return config;
     }
 
