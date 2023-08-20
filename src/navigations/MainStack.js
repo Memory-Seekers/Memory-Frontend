@@ -1,19 +1,20 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import HomeScreen from '../screens/mainScreens/HomeScreen';
-import SignInScreen from '../screens/authScreens/SignInScreen';
+import ContentTab from './ContentTab';
+import { WHITE } from '../styles/colors';
 
 const MainStack = () => {
   const Stack = createNativeStackNavigator();
 
   return (
     <Stack.Navigator
-      initialRouteName="HomeScreen"
+      initialRouteName="ContentTab"
       screenOptions={{
+        contentStyle: { backgroundColor: WHITE },
         headerShown: false,
+        headerShadowVisible: false,
       }}
     >
-      <Stack.Screen name="HomeScreen" component={HomeScreen} />
-      <Stack.Screen name="SignInScreen" component={SignInScreen} />
+      <Stack.Screen name="ContentTab" component={ContentTab} />
     </Stack.Navigator>
   );
 };
