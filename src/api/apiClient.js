@@ -42,7 +42,7 @@ apiClient.interceptors.request.use(
             console.error('postReissueAccessToken: ', error);
           });
       }
-      config.headers['token'] = token;
+      config.headers['X-AUTH-TOKEN'] = token;
     }
     return config;
   },
