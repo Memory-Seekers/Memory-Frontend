@@ -10,6 +10,9 @@ import {
 } from '../api/token';
 import { useAuth } from '../contexts/AuthContext';
 import jwtDecode from 'jwt-decode';
+import * as SplashScreen from 'expo-splash-screen';
+import { useEffect } from 'react';
+import { requestPermissions } from '../functions/Permissions';
 
 const Navigation = () => {
   const { isLoggedIn, setIsLoggedIn } = useAuth();
@@ -49,7 +52,17 @@ const Navigation = () => {
     }
   };
 
-  AutomaticLoginCheck();
+  const prepare = async () => {
+    await SplashScreen.preventAutoHideAsync();
+    await requestPermissions();
+    await AutomaticLoginCheck();
+
+    SplashScreen.hideAsync();
+  };
+
+  useEffect(() => {
+    prepare();
+  }, []);
 
   return (
     <NavigationContainer>
