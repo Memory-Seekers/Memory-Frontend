@@ -8,6 +8,7 @@ import CollectionScreen from '../screens/mainScreens/CollectionScreen';
 import MyPageScreen from '../screens/mainScreens/MyPageScreen';
 import FriendHeaderButton from '../components/friends/FriendHeaderButton';
 import { screenHorizontal } from '../styles/globalStyles';
+import MyProfileHeaderRight from '../components/myProfile/MyProfileHeaderRight';
 
 const Tab = createBottomTabNavigator();
 
@@ -101,10 +102,12 @@ const ContentTab = () => {
         }}
       />
       <Tab.Screen
-        name="MY"
+        name="내 추억"
         component={MyPageScreen}
         options={{
-          headerShown: false,
+          headerShown: true,
+          headerRight: MyProfileHeaderRight,
+          headerRightContainerStyle: { paddingRight: screenHorizontal },
           tabBarIcon: (props) => {
             return (
               <Image

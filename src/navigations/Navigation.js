@@ -44,6 +44,7 @@ const Navigation = () => {
         } else {
           setIsLoggedIn(true);
         }
+        console.log(accessToken);
       }
     }
   };
