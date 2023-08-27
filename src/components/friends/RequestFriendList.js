@@ -9,7 +9,9 @@ const RequestFriendList = ({ children, data }) => {
       data={data}
       keyExtractor={(item) => item.tagId.toString()}
       renderItem={({ item }) => (
-        <RequestFriendListItem item={item}>{children}</RequestFriendListItem>
+        <RequestFriendListItem item={item}>
+          {(currentItem) => children(currentItem)}
+        </RequestFriendListItem>
       )}
     />
   );

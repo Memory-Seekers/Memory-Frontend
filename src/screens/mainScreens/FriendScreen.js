@@ -9,6 +9,9 @@ import {
   getMyFriends,
   getReceiveFriends,
   getSendFriends,
+  postReceiveFriendAccept,
+  deleteReceiveFriendReject,
+  deleteSendFriendCancel,
 } from '../../api/friends/friendList';
 import Toast from 'react-native-toast-message';
 import RequestFriendList from '../../components/friends/RequestFriendList';
@@ -18,16 +21,16 @@ import FriendList from '../../components/friends/FriendList';
 const FriendScreen = ({ navigation }) => {
   const [myAccount, setMyAccount] = useState([]);
   const [isExpand, setIsExpand] = useState({
-    Receive: false,
-    Send: false,
-    Friend: false,
+    Receive: true,
+    Send: true,
+    Friend: true,
   });
 
   const [receiveFriends, setReceiveFriends] = useState([]);
   const [sendFriends, setSendFriends] = useState([]);
   const [myFriends, setMyFriends] = useState([]);
 
-  const [isReload, setIsReload] = useState(true);
+  const [isReload, setIsReload] = useState(false);
 
   const ToastShow = (type, text) => {
     Toast.show({
@@ -44,9 +47,11 @@ const FriendScreen = ({ navigation }) => {
         console.error(error);
         ToastShow('error', '내 정보 조회를 실패하였습니다.');
       });
+  };
 
-    if (isReload) {
-      console.log('test');
+  useFocusEffect(
+    React.useCallback(() => {
+      fetchData();
 
       getReceiveFriends()
         .then((response) => setReceiveFriends(response))
@@ -66,15 +71,7 @@ const FriendScreen = ({ navigation }) => {
           console.error(error);
           ToastShow('error', '내 친구 조회를 실패하였습니다.');
         });
-
-      setIsReload(false);
-    }
-  };
-
-  useFocusEffect(
-    React.useCallback(() => {
-      fetchData();
-    }, [])
+    }, [isReload])
   );
 
   return (
@@ -93,25 +90,31 @@ const FriendScreen = ({ navigation }) => {
       {isExpand.Receive && (
         <View>
           <RequestFriendList data={receiveFriends}>
-            <TouchableOpacity
-              style={{ paddingRight: 8 }}
-              onPress={() => {
-                console.log('수락');
-                setIsReload(true);
-              }}
-            >
-              <Text style={[styles.apiText, { color: PRIMARY.DEFAULT }]}>
-                수락
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => {
-                console.log('거절');
-                setIsReload(true);
-              }}
-            >
-              <Text style={styles.apiText}>거절</Text>
-            </TouchableOpacity>
+            {(item) => (
+              <>
+                <TouchableOpacity
+                  style={{ paddingRight: 8 }}
+                  onPress={() => {
+                    postReceiveFriendAccept(item.tagId)
+                      .then((response) => setIsReload(!isReload))
+                      .catch((error) => console.error(error));
+                  }}
+                >
+                  <Text style={[styles.apiText, { color: PRIMARY.DEFAULT }]}>
+                    수락
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => {
+                    deleteReceiveFriendReject(item.tagId)
+                      .then((response) => setIsReload(!isReload))
+                      .catch((error) => console.error(error));
+                  }}
+                >
+                  <Text style={styles.apiText}>거절</Text>
+                </TouchableOpacity>
+              </>
+            )}
           </RequestFriendList>
         </View>
       )}
@@ -126,14 +129,17 @@ const FriendScreen = ({ navigation }) => {
       {isExpand.Send && (
         <View>
           <RequestFriendList data={sendFriends}>
-            <TouchableOpacity
-              onPress={() => {
-                console.log('취소');
-                setIsReload(true);
-              }}
-            >
-              <Text style={styles.apiText}>취소</Text>
-            </TouchableOpacity>
+            {(item) => (
+              <TouchableOpacity
+                onPress={() => {
+                  deleteSendFriendCancel(item.tagId)
+                    .then((response) => setIsReload(!isReload))
+                    .catch((error) => console.error(error));
+                }}
+              >
+                <Text style={styles.apiText}>취소</Text>
+              </TouchableOpacity>
+            )}
           </RequestFriendList>
         </View>
       )}

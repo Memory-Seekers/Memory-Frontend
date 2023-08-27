@@ -10,7 +10,7 @@ const RequestFriendListItem = memo(({ children, item }) => {
         <Text style={styles.nickNameText}>{item.nickName}</Text>
         <Text style={styles.tagIdText}>#{item.tagId}</Text>
       </View>
-      <View style={styles.apiContainer}>{children}</View>
+      <View style={styles.apiContainer}>{children(item)}</View>
     </View>
   );
 });
