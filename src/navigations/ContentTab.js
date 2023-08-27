@@ -85,7 +85,7 @@ const ContentTab = () => {
         name="컬렉션"
         component={CollectionScreen}
         options={{
-          headerShown: false,
+          headerShown: true,
           tabBarIcon: (props) => {
             return (
               <Image
