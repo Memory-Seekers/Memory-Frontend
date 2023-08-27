@@ -6,6 +6,8 @@ import { Family, Label, Title } from '../styles/fonts';
 import FriendScreen from '../screens/mainScreens/FriendScreen';
 import CollectionScreen from '../screens/mainScreens/CollectionScreen';
 import MyPageScreen from '../screens/mainScreens/MyPageScreen';
+import FriendHeaderButton from '../components/friends/FriendHeaderButton';
+import { screenHorizontal } from '../styles/globalStyles';
 
 const Tab = createBottomTabNavigator();
 
@@ -31,6 +33,7 @@ const ContentTab = () => {
           ...(({ color, ...rest }) => rest)(Label.Small),
         },
         contentStyle: { backgroundColor: WHITE },
+        headerRightContainerStyle: { paddingRight: screenHorizontal },
         headerShadowVisible: false,
         headerTitleStyle: {
           ...Family.KR_Regular,
@@ -63,6 +66,7 @@ const ContentTab = () => {
         component={FriendScreen}
         options={{
           headerShown: true,
+          headerRight: FriendHeaderButton,
           tabBarIcon: (props) => {
             return (
               <Image
