@@ -1,15 +1,17 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Image } from 'react-native';
 import Navigation from './navigations/Navigation';
 import { AuthProvider } from './contexts/AuthContext';
+import Toast from 'react-native-toast-message';
+import toastConfig from './styles/toastConfig';
 
-export default function App() {
+const App = () => {
   return (
     <AuthProvider>
       <StatusBar style="dark" />
       <Navigation />
+      <Toast config={toastConfig} />
     </AuthProvider>
   );
-}
+};
 
-const styles = StyleSheet.create({});
+export default App;
