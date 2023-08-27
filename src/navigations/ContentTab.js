@@ -1,8 +1,8 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from '../screens/mainScreens/HomeScreen';
 import { Image } from 'react-native';
-import { GRAY, PRIMARY } from '../styles/colors';
-import { Family, Label } from '../styles/fonts';
+import { GRAY, PRIMARY, WHITE } from '../styles/colors';
+import { Family, Label, Title } from '../styles/fonts';
 import FriendScreen from '../screens/mainScreens/FriendScreen';
 import CollectionScreen from '../screens/mainScreens/CollectionScreen';
 import MyPageScreen from '../screens/mainScreens/MyPageScreen';
@@ -30,6 +30,12 @@ const ContentTab = () => {
           ...Family.KR_Medium,
           ...(({ color, ...rest }) => rest)(Label.Small),
         },
+        contentStyle: { backgroundColor: WHITE },
+        headerShadowVisible: false,
+        headerTitleStyle: {
+          ...Family.KR_Regular,
+          ...Title.Large,
+        },
       }}
     >
       <Tab.Screen
@@ -56,7 +62,7 @@ const ContentTab = () => {
         name="친구"
         component={FriendScreen}
         options={{
-          headerShown: false,
+          headerShown: true,
           tabBarIcon: (props) => {
             return (
               <Image
