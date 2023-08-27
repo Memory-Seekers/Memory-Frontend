@@ -37,13 +37,17 @@ export const postEmailJoinConfirm = async (email) => {
   const endPoint = '/member/emailConfirmJoin';
 
   try {
-    const response = await apiClient.post(endPoint, {
-      params: {
-        email: email,
-      },
-    });
+    const response = await apiClient.post(
+      endPoint,
+      {},
+      {
+        params: {
+          email: email,
+        },
+      }
+    );
 
-    return response;
+    return response.data;
   } catch (error) {
     throw error;
   }

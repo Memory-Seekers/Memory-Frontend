@@ -3,7 +3,7 @@ import validator from 'validator';
 import Constants from 'expo-constants';
 import InputBox from '../../components/InputBox';
 import FullButton from '../../components/buttons/FullButton';
-import { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { screenHorizontal } from '../../styles/globalStyles';
 import { postSignIn } from '../../api/auth/signIn';
 import { Body, Family, Label } from '../../styles/fonts';
@@ -12,6 +12,7 @@ import { storeAccessToken, storeRefreshToken } from '../../api/token';
 import CheckBox from '../../components/buttons/CheckBox';
 import AsyncStorage from '@react-native-community/async-storage';
 import { useAuth } from '../../contexts/AuthContext';
+import { useFocusEffect } from '@react-navigation/native';
 
 const SignInScreen = ({ navigation }) => {
   const [loginErrorMesseage, setLoginErrorMesseage] = useState('');
@@ -29,6 +30,12 @@ const SignInScreen = ({ navigation }) => {
     email: null,
     password: null,
   });
+
+  useFocusEffect(
+    React.useCallback(() => {
+      setInputFormErrors(initialFormData);
+    }, [])
+  );
 
   const focusNextField = (field) => {
     if (inputFieldRef.current[field]) {
@@ -71,6 +78,8 @@ const SignInScreen = ({ navigation }) => {
       postSignIn(inputFormData.email, inputFormData.password)
         .then(async (response) => {
           setIsLoggedIn(true);
+          console.log('accessToken: ', response.accessToken);
+          console.log('refreshToken: ', response.refreshToken);
           await storeAccessToken(response.accessToken);
           await storeRefreshToken(response.refreshToken);
         })

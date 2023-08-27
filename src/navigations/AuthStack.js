@@ -16,6 +16,7 @@ const AuthStack = () => {
         headerShown: false,
         headerShadowVisible: false,
         headerLeft: HeaderLeftIcon,
+        headerTitleAlign: 'center',
         headerTitleStyle: {
           ...Family.KR_Regular,
           ...Title.Large,
@@ -29,7 +30,6 @@ const AuthStack = () => {
         options={{
           headerShown: true,
           headerTitle: '회원가입',
-          headerTitleAlign: 'center',
         }}
       />
     </Stack.Navigator>

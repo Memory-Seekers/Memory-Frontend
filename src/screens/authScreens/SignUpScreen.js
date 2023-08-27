@@ -6,7 +6,12 @@ import InputBox from '../../components/InputBox';
 import { useEffect, useRef, useState } from 'react';
 import FullButton from '../../components/buttons/FullButton';
 import OutLineButton from '../../components/buttons/OutLineButton';
-import { getIdConfirm, postEmailJoinConfirm } from '../../api/auth/signUp';
+import {
+  getIdConfirm,
+  postEmailJoinConfirm,
+  postSignUp,
+} from '../../api/auth/signUp';
+import { Toast } from 'react-native-toast-message/lib/src/Toast';
 
 const SignUpScreen = ({ navigation }) => {
   const [disabled, setDisabled] = useState(true);
@@ -46,10 +51,6 @@ const SignUpScreen = ({ navigation }) => {
   useEffect(() => {
     emailConfirm && focusNextField('authenticationCode');
   }, [emailConfirm]);
-
-  useEffect(() => {
-    console.log(serverAuthenticationCode);
-  }, [serverAuthenticationCode]);
 
   const handleInputChange = (name, value) => {
     setInputFormData((prevData) => ({
@@ -95,6 +96,9 @@ const SignUpScreen = ({ navigation }) => {
       errors.authenticationCode = '인증코드를 입력해 주세요.';
       focusNextField('authenticationCode');
     }
+    if (serverAuthenticationCode == inputFormData.authenticationCode) {
+      setCodeConfirm(true);
+    }
 
     setInputFormErrors(errors);
   };
@@ -115,6 +119,21 @@ const SignUpScreen = ({ navigation }) => {
     });
 
     if (Object.keys(errors).length === 0) {
+      postSignUp(
+        inputFormData.tagId,
+        inputFormData.email,
+        inputFormData.password,
+        inputFormData.nickName
+      )
+        .then((response) => navigation.navigate('SignIn'))
+        .catch((error) => {
+          console.error(error);
+          Toast.show({
+            type: 'error',
+            text1: '회원가입에 실패하였습니다.',
+            position: 'bottom',
+          });
+        });
     }
     setInputFormErrors(errors);
   };
@@ -154,7 +173,7 @@ const SignUpScreen = ({ navigation }) => {
               />
             </View>
           </View>
-          {emailConfirm && (
+          {emailConfirm && !codeConfim && (
             <View style={styles.rowContainer}>
               <View style={{ flex: 1 }}>
                 <InputBox
