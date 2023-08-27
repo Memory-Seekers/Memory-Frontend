@@ -1,5 +1,6 @@
-import { Button, Text, View } from 'react-native';
+import { View } from 'react-native';
 import { WHITE } from '../../styles/colors';
+import MapView from '../../components/navermap/MapView';
 
 const HomeScreen = ({ navigation }) => {
   return (
@@ -11,8 +12,7 @@ const HomeScreen = ({ navigation }) => {
         backgroundColor: WHITE,
       }}
     >
-      <Text>HomeScreen</Text>
-      <Button title="Auth" onPress={() => navigation.replace('SignInScreen')} />
+      <MapView />
     </View>
   );
 };
