@@ -57,11 +57,15 @@ export const postReceiveFriendAccept = async (tagId) => {
   const endPoint = '/friends/accept';
 
   try {
-    const response = await apiClient.post(endPoint, {
-      params: {
-        tagId: tagId,
-      },
-    });
+    const response = await apiClient.post(
+      endPoint,
+      {},
+      {
+        params: {
+          tagId: tagId,
+        },
+      }
+    );
 
     return response.data;
   } catch (error) {
@@ -70,7 +74,7 @@ export const postReceiveFriendAccept = async (tagId) => {
 };
 
 // 받은 친구 요청 거절
-export const postReceiveFriendReject = async (tagId) => {
+export const deleteReceiveFriendReject = async (tagId) => {
   const endPoint = '/friends/reject';
 
   try {
@@ -87,11 +91,11 @@ export const postReceiveFriendReject = async (tagId) => {
 };
 
 // 보낸 친구 요청 취소
-export const postSendFriendCancel = async (tagId) => {
+export const deleteSendFriendCancel = async (tagId) => {
   const endPoint = '/friends/request';
 
   try {
-    const response = await apiClient.post(endPoint, {
+    const response = await apiClient.delete(endPoint, {
       params: {
         tagId: tagId,
       },
