@@ -1,7 +1,11 @@
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
 const MyPageScreen = () => {
-  return <View style={styles.ViewContainer}>mypage</View>;
+  return (
+    <View style={styles.ViewContainer}>
+      <Text>mypage</Text>
+    </View>
+  );
 };
 
 const styles = StyleSheet.create({

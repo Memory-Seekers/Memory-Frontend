@@ -24,9 +24,27 @@ const ContentTab = () => {
           headerShown: true,
         }}
       />
-      <Tab.Screen name="친구" component={FriendListScreen} />
-      <Tab.Screen name="컬렉션" component={CollectionScreen} />
-      <Tab.Screen name="내 프로필" component={MyPageScreen} />
+      <Tab.Screen
+        name="친구"
+        component={FriendListScreen}
+        options={{
+          headerShown: true,
+        }}
+      />
+      <Tab.Screen
+        name="컬렉션"
+        component={CollectionScreen}
+        options={{
+          headerShown: true,
+        }}
+      />
+      <Tab.Screen
+        name="내 프로필"
+        component={MyPageScreen}
+        options={{
+          headerShown: true,
+        }}
+      />
     </Tab.Navigator>
   );
 };
