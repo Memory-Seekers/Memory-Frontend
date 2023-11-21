@@ -4,6 +4,7 @@ import LandmarkMarker from './LandmarkMarker';
 import { useFocusEffect } from '@react-navigation/native';
 import { getLandmarks } from '../../api/memories/landmark';
 import LandmarkBottomSheet from './LandmarkBottomSheet';
+import MyLocationMarker from './MyLocationMarker';
 
 const MapView = ({ children, isView = true }) => {
   const [landmarks, setLandmarks] = useState(null);
@@ -23,10 +24,17 @@ const MapView = ({ children, isView = true }) => {
     <>
       <NaverMapView
         style={{ width: '100%', height: '100%' }}
+        center={{
+          latitude: 37.579917,
+          longitude: 126.967041,
+          zoom: 16,
+        }}
         zoomControl={false}
         scaleBar={false}
         useTextureView={true}
       >
+        {isView && <MyLocationMarker />}
+
         {isView && (
           <LandmarkMarker
             landmarks={landmarks}
